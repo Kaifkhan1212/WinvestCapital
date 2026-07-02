@@ -71,22 +71,9 @@ export default function AiChatWidget() {
       let replyText = '';
 
       try {
-        if (!isSupabaseConfigured()) {
-          throw new Error('Supabase is not configured.');
-        }
-
-        const { data, error: functionError } = await supabase.functions.invoke('gemini-chat', {
-          body: {
-            message: trimmedMessage,
-            history,
-          },
-        });
-
-        if (functionError) {
-          throw functionError;
-        }
-
-        replyText = data?.reply;
+        // Temporarily bypassing Supabase Edge Function because it is unconfigured/outdated.
+        // Forcing fallback to local server / direct client fetch which we know works.
+        throw new Error('Bypassing Supabase Edge Function');
       } catch (supabaseErr) {
         console.warn('Supabase edge function failed or is unconfigured. Trying local secure server fallback...', supabaseErr);
 
