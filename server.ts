@@ -39,6 +39,7 @@ async function startServer() {
   });
 
   app.post('/api/gemini-chat', async (req, res) => {
+    console.log('Received request on /api/gemini-chat', req.body);
     try {
       const { message, history = [] } = req.body;
 
@@ -79,7 +80,7 @@ IMPORTANT RESTRICTIONS:
 - Keep responses short (2-4 sentences), friendly, and professional`;
 
       const response = await client.models.generateContent({
-        model: 'gemini-1.5-flash',
+        model: 'gemini-3.5-flash',
         contents,
         config: {
           systemInstruction,
