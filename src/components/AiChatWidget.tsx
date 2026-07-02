@@ -152,7 +152,7 @@ IMPORTANT RESTRICTIONS:
 - If asked for investment advice, politely explain you can only provide general information and direct them to contact the team via WhatsApp (+91 9579557272) or the contact form for personalized guidance
 - Keep responses short (2-4 sentences), friendly, and professional`;
 
-          const directResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${clientApiKey}`, {
+          const directResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${clientApiKey}`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

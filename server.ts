@@ -79,7 +79,7 @@ IMPORTANT RESTRICTIONS:
 - Keep responses short (2-4 sentences), friendly, and professional`;
 
       const response = await client.models.generateContent({
-        model: 'gemini-2.5-flash',
+        model: 'gemini-1.5-flash',
         contents,
         config: {
           systemInstruction,
