@@ -1,0 +1,8 @@
+{
+  "name": "Remix: Winvest Capitals",
+  "description": "SEBI Registered Research Analyst firm offering stock market research, investment advisory, and portfolio management solutions.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

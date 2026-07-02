@@ -1,0 +1,509 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    font-family: var(--font-sans);
+    background-color: #0A0F0D;
+    color: #F8FAFC;
+  }
+}
+
+/* Faint Grid Background Pattern (GPU-friendly, native CSS) */
+.bg-candlestick {
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.006) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.006) 1px, transparent 1px);
+  background-size: 40px 40px;
+  background-repeat: repeat;
+}
+
+/* Completely disable decorative backgrounds and heavy blur filters on tablet and mobile to prevent browser/GPU rendering glitches and text duplication */
+@media (max-width: 1024px) {
+  .bg-candlestick {
+    background-image: none !important;
+  }
+
+  /* Disable backdrop-filter globally on mobile/tablet to resolve hardware compositing issues */
+  * {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+  
+  /* Completely hide all decorative background blur spheres (even those without pointer-events-none) on tablet and mobile to prevent GPU/compositor rendering glitches */
+  div.absolute[class*="blur"] {
+    display: none !important;
+  }
+
+  /* Prevent text duplication bug from linear-gradient background clip on mobile/tablet */
+  .text-gradient,
+  .text-gradient-blue {
+    background: none !important;
+    -webkit-background-clip: initial !important;
+    -webkit-text-fill-color: initial !important;
+    color: #10B981 !important;
+  }
+  .text-gradient-blue {
+    color: #3B82F6 !important;
+  }
+
+  /* Disable dynamic filters on iframes (like maps) on mobile to prevent GPU texture corruption and bleed-through */
+  iframe {
+    filter: none !important;
+    -webkit-filter: none !important;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0A0F0D;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1E293B;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #334155;
+}
+
+/* Hover Glowing & Elevation Effects */
+.hover-glow {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-glow:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px -10px rgba(16, 185, 129, 0.15);
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+.hover-glow-blue {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-glow-blue:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px -10px rgba(59, 130, 246, 0.15);
+  border-color: rgba(59, 130, 246, 0.3);
+}
+
+/* Bento Theme Specific Classes */
+.bento-card {
+  background-color: #151A18;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1.25rem; /* 20px */
+  padding: 1.5rem;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.bento-card:hover {
+  border-color: rgba(16, 185, 129, 0.25);
+  box-shadow: 0 12px 30px -10px rgba(16, 185, 129, 0.15);
+  transform: translateY(-2px);
+}
+
+.bento-card-dark {
+  background-color: #0D1211;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1.25rem;
+  padding: 1.5rem;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.bento-card-dark:hover {
+  border-color: rgba(59, 130, 246, 0.25);
+  box-shadow: 0 12px 30px -10px rgba(59, 130, 246, 0.15);
+  transform: translateY(-2px);
+}
+
+.bento-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  background-color: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #10B981;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+}
+
+.text-bento-title {
+  background: linear-gradient(135deg, #ffffff 50%, #f1f5f9 85%, #3b82f6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Custom Marquee animations */
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 25s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Pulse effects */
+@keyframes custom-pulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+  50% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+}
+
+.pulse-emerald {
+  animation: custom-pulse 2s infinite;
+}
+
+/* Stripe-like text gradient and shadows */
+.text-gradient {
+  background: linear-gradient(135deg, #FFFFFF 30%, #10B981 70%, #3B82F6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-blue {
+  background: linear-gradient(135deg, #FFFFFF 40%, #3B82F6 80%, #10B981 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.glow-card {
+  position: relative;
+}
+
+.glow-card::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(59, 130, 246, 0.1));
+  border-radius: inherit;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.glow-card:hover::after {
+  opacity: 1;
+}
+
+/* ==========================================
+   Accessibility Assistant Override Classes
+   ========================================== */
+
+/* 1. Bigger Text Scales (applied via root font-size) */
+.access-font-size-1 {
+  font-size: 110% !important;
+}
+.access-font-size-2 {
+  font-size: 120% !important;
+}
+.access-font-size-3 {
+  font-size: 130% !important;
+}
+
+/* 2. High-Contrast Color Theme Swaps */
+/* Dark High Contrast (Black bg, white text, green/blue highlights) */
+.access-force-dark,
+.access-force-dark body {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+.access-force-dark p,
+.access-force-dark span,
+.access-force-dark li,
+.access-force-dark label,
+.access-force-dark th,
+.access-force-dark td {
+  color: #f1f5f9 !important;
+}
+.access-force-dark .bg-slate-900,
+.access-force-dark .bg-slate-900\/40,
+.access-force-dark .bg-slate-950,
+.access-force-dark .bg-slate-900\/20,
+.access-force-dark .bento-card,
+.access-force-dark .bento-card-dark,
+.access-force-dark .bg-\[\#0E1512\],
+.access-force-dark .bg-\[\#151A18\],
+.access-force-dark .bg-\[\#0D1211\],
+.access-force-dark section {
+  background-color: #0c0c0e !important;
+  border-color: #ffffff !important;
+}
+
+/* Light High Contrast (White bg, black text, blue/green highlights) */
+.access-force-light,
+.access-force-light body {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+.access-force-light p,
+.access-force-light span,
+.access-force-light li,
+.access-force-light label,
+.access-force-light h1,
+.access-force-light h2,
+.access-force-light h3,
+.access-force-light h4,
+.access-force-light h5,
+.access-force-light h6,
+.access-force-light th,
+.access-force-light td {
+  color: #0f172a !important;
+}
+.access-force-light .bg-slate-900,
+.access-force-light .bg-slate-900\/40,
+.access-force-light .bg-slate-950,
+.access-force-light .bg-\[\#0A0F0D\],
+.access-force-light .bento-card,
+.access-force-light .bento-card-dark,
+.access-force-light .bg-\[\#0E1512\],
+.access-force-light .bg-\[\#151A18\],
+.access-force-light .bg-\[\#0D1211\],
+.access-force-light section {
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+  border-color: #000000 !important;
+}
+.access-force-light .border-slate-900,
+.access-force-light .border-slate-800,
+.access-force-light .border-white\/10 {
+  border-color: #000000 !important;
+}
+
+/* 3. Highlight Links */
+.access-highlight-links a,
+.access-highlight-links button[onClick] {
+  background-color: #fef08a !important; /* Tailwind yellow-200 */
+  color: #000000 !important;
+  text-decoration: underline !important;
+  text-decoration-thickness: 2px !important;
+  font-weight: 700 !important;
+}
+
+/* 4. Line Heights */
+.access-line-height-1,
+.access-line-height-1 * {
+  line-height: 1.5 !important;
+}
+.access-line-height-2,
+.access-line-height-2 * {
+  line-height: 1.8 !important;
+}
+.access-line-height-3,
+.access-line-height-3 * {
+  line-height: 2.2 !important;
+}
+
+/* 5. Hide Images & Placeholder replacements */
+.access-hide-images img {
+  visibility: hidden !important;
+  position: relative !important;
+  min-height: 80px !important;
+}
+.access-hide-images img::after {
+  content: "🖼️ Image Hidden";
+  visibility: visible !important;
+  position: absolute !important;
+  inset: 0 !important;
+  background-color: #cbd5e1 !important; /* slate-300 bg */
+  color: #475569 !important;
+  border: 2px dashed #94a3b8 !important;
+  border-radius: 0.75rem !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-weight: 700 !important;
+  font-size: 12px !important;
+  font-family: sans-serif !important;
+  padding: 8px !important;
+  text-align: center !important;
+}
+.access-force-dark.access-hide-images img::after {
+  background-color: #1e293b !important;
+  color: #f1f5f9 !important;
+  border-color: #475569 !important;
+}
+.access-hide-images [style*="background-image"],
+.access-hide-images .bg-candlestick {
+  background-image: none !important;
+  background: #f1f5f9 !important;
+  border: 1px dashed #cbd5e1 !important;
+}
+.access-force-dark.access-hide-images [style*="background-image"],
+.access-force-dark.access-hide-images .bg-candlestick {
+  background: #1e293b !important;
+  border-color: #475569 !important;
+}
+
+/* 6. Letter Spacing */
+.access-letter-spacing-1,
+.access-letter-spacing-1 * {
+  letter-spacing: 0.05em !important;
+}
+.access-letter-spacing-2,
+.access-letter-spacing-2 * {
+  letter-spacing: 0.1em !important;
+}
+.access-letter-spacing-3,
+.access-letter-spacing-3 * {
+  letter-spacing: 0.15em !important;
+}
+
+/* 8. Text Align */
+.access-text-align-1 p,
+.access-text-align-1 h1,
+.access-text-align-1 h2,
+.access-text-align-1 h3,
+.access-text-align-1 h4,
+.access-text-align-1 h5,
+.access-text-align-1 h6,
+.access-text-align-1 li {
+  text-align: center !important;
+}
+.access-text-align-2 p,
+.access-text-align-2 h1,
+.access-text-align-2 h2,
+.access-text-align-2 h3,
+.access-text-align-2 h4,
+.access-text-align-2 h5,
+.access-text-align-2 h6,
+.access-text-align-2 li {
+  text-align: justify !important;
+}
+
+/* 9. Pause Animation */
+.access-pause-animation *,
+.access-pause-animation *::before,
+.access-pause-animation *::after {
+  animation-play-state: paused !important;
+  transition: none !important;
+  transform: none !important;
+}
+
+/* 11. Contrast + font weight bump */
+.access-contrast-plus p,
+.access-contrast-plus span,
+.access-contrast-plus li,
+.access-contrast-plus label,
+.access-contrast-plus td {
+  font-weight: 600 !important;
+}
+.access-contrast-plus h1,
+.access-contrast-plus h2,
+.access-contrast-plus h3,
+.access-contrast-plus h4 {
+  font-weight: 800 !important;
+}
+
+/* ==========================================
+   Accessibility Assistant Drawer Overrides
+   ========================================== */
+.accessibility-assistant-drawer {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+}
+
+/* Header bar text & elements */
+.accessibility-assistant-drawer .bg-black {
+  background-color: #000000 !important;
+}
+.accessibility-assistant-drawer .bg-black h2 {
+  color: #ffffff !important;
+}
+.accessibility-assistant-drawer .bg-black button {
+  color: #94a3b8 !important;
+}
+.accessibility-assistant-drawer .bg-black button:hover {
+  color: #ffffff !important;
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Reset settings button text and SVG */
+.accessibility-assistant-drawer button.bg-slate-900 {
+  background-color: #0f172a !important;
+  color: #ffffff !important;
+}
+.accessibility-assistant-drawer button.bg-slate-900 span,
+.accessibility-assistant-drawer button.bg-slate-900 svg {
+  color: #ffffff !important;
+}
+.accessibility-assistant-drawer button.bg-slate-900:hover {
+  background-color: #1e293b !important;
+}
+
+/* Card buttons: Active state (Emerald) */
+.accessibility-assistant-drawer .border-\[\#10B981\].bg-\[\#10B981\]\/10 {
+  background-color: rgba(16, 185, 129, 0.1) !important;
+  border-color: #10B981 !important;
+}
+.accessibility-assistant-drawer .border-\[\#10B981\].bg-\[\#10B981\]\/10 span,
+.accessibility-assistant-drawer .border-\[\#10B981\].bg-\[\#10B981\]\/10 svg {
+  color: #047857 !important; /* Extremely clear high-contrast emerald text/icon */
+}
+
+/* Card buttons: Inactive state */
+.accessibility-assistant-drawer .border-slate-200.bg-slate-50 {
+  background-color: #f8fafc !important;
+  border-color: #cbd5e1 !important;
+}
+.accessibility-assistant-drawer .border-slate-200.bg-slate-50 span {
+  color: #334155 !important;
+}
+.accessibility-assistant-drawer .border-slate-200.bg-slate-50 svg {
+  color: #64748b !important;
+}
+.accessibility-assistant-drawer .border-slate-200.bg-slate-50:hover {
+  background-color: #f1f5f9 !important;
+  border-color: #94a3b8 !important;
+}
+
+/* Instructions box */
+.accessibility-assistant-drawer .bg-slate-50.border-slate-100 {
+  background-color: #f8fafc !important;
+  border-color: #e2e8f0 !important;
+}
+.accessibility-assistant-drawer .bg-slate-50.border-slate-100 p,
+.accessibility-assistant-drawer .bg-slate-50.border-slate-100 span {
+  color: #475569 !important;
+}
+.accessibility-assistant-drawer .bg-slate-50.border-slate-100 svg {
+  color: #059669 !important; /* emerald-600 */
+}
+
+/* Footer compliance info */
+.accessibility-assistant-drawer .border-t.bg-slate-50 {
+  background-color: #f8fafc !important;
+  border-top-color: #e2e8f0 !important;
+}
+.accessibility-assistant-drawer .border-t.bg-slate-50 span {
+  color: #94a3b8 !important;
+}
